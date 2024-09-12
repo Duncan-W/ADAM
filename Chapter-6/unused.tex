@@ -1,0 +1,172 @@
+
+
+\begin{comment}
+infrequency would make it challenging for  to learn  not filtered  their infrequency would   
+
+ord Vector Representations
+The majority of . This translates to a very sparse vector representation
+of the size of the vocabulary and with a single 1 at the index location of the current
+word. This, so-called “one-hot” or “one-on” representations has the problem that it
+does not capture any type of similarity between two words. So if a model sees “hotel”
+in a surrounding context it cannot use this information when it sees “motel” at the
+same location during test time.
+Instead of this simplistic approach, Firth (1957) introduced the powerful idea of
+CHAPTER 2. DEEP LEARNING BACKGROUND 15
+representing each word by means of its neighbors.1 This is one of the most successful
+ideas of modern statistical natural language processing (NLP) and has been used
+extensively in NLP, for instance Brown clustering (Brown et al., 1992) can be seen as
+an instance of this idea. Another example is the soft clustering induced by methods
+such as LSA (Deerwester et al., 1990) or latent Dirichlet allocation (Blei et al., 2003).
+The related idea of neural language models (Bengio et al., 2003) is to jointly learn such
+context-capturing vector representations of words and use these vectors to predict how
+likely a word is to occur given its context.
+Collobert and Weston (2008) introduced a model to compute an embedding with
+a similar idea. This model will be described in detail in Sec. 2.4. In addition, Sec. 2.5
+on backpropagation directly following it describes in detail how to train word vectors
+with this type of model. At a high level, the idea is to construct a neural network that
+outputs high scores for windows that occur in a large unlabeled corpus and low scores
+for windows where one word is replaced by a random word. When such a network is
+optimized via gradient ascent the derivatives backpropagate into a word embedding
+$matrix L ∈ R$
+n×V
+, where V is the size of the vocabulary.
+The main commonality between all unsupervised word vector learning approaches
+is that the resulting word vectors capture distributional semantics and co-occurrence
+statistics. The model by Collobert and Weston (2008) described in the next section
+achieves this via sampling and contrasting samples from the data distribution with
+corrupted samples. This formulation transforms an inherently unsupervised problem
+into a supervised problem in which unobserved or corrupted context windows become
+negative class samples. This idea has been used in numerous word vector learning
+models (Collobert and Weston, 2008; Bengio et al., 2009; Turian et al., 2010; Huang
+et al., 2012; Mikolov et al., 2013). When models are trained to distinguish true from
+corrupted windows they learn word representations that capture the good contexts
+of words. This process works but is slow since each window is computed separately.
+Most recently, Pennington et al. (2014) showed that predicting the word co-occurrence
+matrix (collected over the entire corpus) with a weighted regression loss achieves
+better performance on a range of evaluation tasks than previous negative sampling
+1The famous quote is “You shall know a word by the company it keeps.”
+CHAPTER 2. DEEP LEARNING BACKGROUND 16
+approaches. Despite this success, I will describe the window-based model below since
+its backpropagation style learning can be used f
+
+
+
+\end{comment}
+
+%Our research concerns outliers that represent frequent attender (FA) patients. While outliers by their nature represent a small subsection of population morbidity, the significance in the detection of FA cases relates to the ultimately disproportionate impact they pose on healthcare provision. Moreover, the aspects which constitutes an FA case may potentially present prodromal features of chronic diseases.    
+
+
+
+%> The following paragraph should go elsewhere
+
+%FA patients have no uniform definition, with the threshold for deciding which patients fit this classification varying between different countries, regions, and even particular departments. For instance Mercy University Hospital in Ireland classified high frequent attender as patients with between 13 to 30 Emergency Department visits per year, and very high frequent attenders as those with over 30 Emergency Department visits.\cite{bhroin2019profiling}
+
+
+%\subsection{Dataset}
+
+%This research will be using a corpus of 211000 deidentified cases treated in 2014 in an OOHC general practitioner cooperative in Ireland. Electronic Health Records used in the operation of OOHC coops are composed of both normalised and free-text (or unstructured textual) clinical notes. The EHR software used by the co-op and the majority of OOHC medical providers within Ireland and Great Britain is Ad Astra\textsuperscript{TM}. However, the majority of useful information relating to patients is contained within unstructured `free-text' notes. As such, the experiments and results in this paper concern the use of these textual features. Demographical features were predominantly used in the establishment of ground truth to ascertain repeated contact of the OOHC in question. High FAs represent 2922 cases, while FAs represent 7365 cases within this corpus. Training, validation, and testing sets described within this paper represent a 50:25:25 split of these cohorts, respectively. 
+
+%\begin{table}[h]
+%\ra{2.3}
+
+%      \centering
+%\caption{Performance relating to word embedding method}
+%\label{embedding}
+%  \begin{tabular}{*{15}{c}}
+% 
+%    &  \multicolumn{2}{|c|}{t(24) P} & \multicolumn{2}{c|}{t(24) P'} &   \\     
+%     & PPV     & NPV  & PPV      & NPV       \\ \hline
+%W2V      & 0.66$\pm 0.018$    & 0.72$\pm 0.044$ & 0.76$\pm 0.034$     & 0.74$\pm 0.04$   &  \\
+%GloVe      & 0.64$\pm 0.077$    & 0.75$\pm 0.073$ & 0.72$\pm 0.022$     & 0.76$\pm 0.03$    &  \\
+%Pretrained & 0.62$\pm 0.037$    & 0.69$\pm 0.051$ & 0.69$\pm 0.043$      & 0.74$\pm 0.05$   & \\
+%  \end{tabular}
+%\end{table}
+
+
+
+\begin{comment}
+\section{Related Work}
+
+%The use of machine learning in relation to medical data is by no means new. However, free-text has proven a problematic source of features for classic machine learning techniques. Even when advanced feature extraction methodologies are employed, the inherent noise and heterogeneity of medical natural language remains an issue. Recent research has sought to overcome these challenges through use of ANNs. While ANNs have received widespread academic and commercial attention in the last number of years, contemporary medical informatics has begun to broach ANNs for use with data from Electronic Health Records. 
+
+%The actual use of neural networks in conjunction with EHR varies significantly between different researchers. For instance, some researchers maintain feature extraction techniques, and use neural networks for classification purposes using these extracted features, while others use neural networks for the purposes of feature transformation, and have other types of machine learning algorithms use these features. The architectures and designs of the ANNs similarly are multivariate, with no single structure proving the de facto standard across extant research.
+
+Although deep learning in relation to medical data has gained traction in recent years, the use of unstructured text in Electronic Health Records for classification purposes is relatively novel. Investigations into this area are complicated by fact that direct comparison between the work of different researchers is generally difficult due to the divergent datasets and objectives under consideration.\cite{gehrmann2018comparing} Nonetheless, the broad approaches used can provide elucidation. For instance, while difficulties inherent in unstructured text can be obviated by using fixed list of terms (e.g. as seen in Geraci et al.'s use multi-layer perceptrons as part of H2O.ai's Deep Learning platform),\cite{geraci2017applying} such approaches tend to perform poorly on unseen data.
+
+\end{comment}
+
+
+%Frost et al. despite having a very similar motivation to our research (namely the identification of patients who were at risk of becoming ``high users") comes at the problem slightly differently.\cite{frost2017using} FA patients in this instance are defined by age, cost assessment, and emergency department visits, while the approach used was a more traditional method of logistic regression in connection with high value terms derived from extracted text; achieving an AUC up to 0.78.  
+
+%Direct comparison between the work of different researchers is typically difficult due to the divergent datasets and objectives under consideration.\cite{geraci2017applying} While the types of neural networks differ significantly between researchers,
+
+%However, as the author expected, this approach did not generalise, and in some cases during cross validation it achieved no better than random accuracy. 
+%Geraci et al. were faced with a relatively small dataset, as classification had to be performed by domain experts, leaving a total of 861 patient documents with which to work. The actual features of the documents were refined into a document term matrix, with the value for each term recorded by its term frequency - inverse document frequency. Somewhat unusually, Geraci et al. produced two separate neural network models, one which had high specificity and poor sensitivity, and one which happened to have high sensitivity but poor specificity. By combining the results of these two neural networks Geraci et al.'s model achieved a sensitivity of 75\% and specificity of 87\%. The significant difference between the high sensitivity and specification networks (both of which had three layers) was the number of nodes, with the high specificity network having 758 input nodes, and the high sensitivity network having 102 input nodes.
+
+% Unlike Geraci et al., the dataset under investigation was substantial (comprising aggregated EHR data of some 700,000 patients, of which 76,214 were used for testing purposes).
+
+%Of course, neural networks are not exclusively used for classification. Indeed, Miotto et al. use an unsupervised multilayer perceptron (denoising autoencoder) solely for the purposes of preprocessing for feature extraction.\cite{miotto2016deep}  The performance of the preprocessing performed by DeepPatient (the name given to Miotto et al's classification program) was compared to various alternative unsupervised learning techniques, with DeepPatient's autoencoders providing a statistically significant improvement on all other methodologies tested. Ultimately the features presented to Miotto et al.'s classification algorithm was as a bag-of-words, though the use of autoencoders clearly improved the quality of the features presented. 
+
+%Although Miotto et al.'s DeepPatient achieves very high accuracy, the  F-1 score of DeepPatient was, at 0.181, relatively low. As the reported accuracy of DeepPatient was 0.929, this means that recall must have been an issue for the algorithm. DeepPatient  achieved a very good area under the ROC curve (at 0.773).
+
+
+%In counterpoint, C. Yao et al. use a Convolutional Neural Network (CNN) in order to predict correct answers to users' questions in an online Q\&A system \cite{yao2016convolutional}. The specific structure used in this CNN is inherited from the work by Yoon Kim 
+%[]
+%\cite{kim2014convolutional}. A large amount of preprocessing of textual data is performed on the user submitted data, with an emphasis on extracting symptoms, though these features are also vectorized as word embeddings. The accuracy of the model that C. Yoa et al. create is 71\%. It is shown in this research that the quality of the predictions in this case is largely dependent upon the number of symptoms that are present in user data. 
+
+
+
+
+%\begin{table*}[h]
+%\ra{1.3}
+%
+%      \centering
+%\caption{Performance relating to word embedding method}
+%\label{embedding}
+%  \begin{tabular}{*{15}{c}}
+% 
+%     &  \multicolumn{2}{|c|}{t(50) P} & \multicolumn{2}{c|}{t(50) P'}  & \\
+% W2V      &  0.81$\pm 0.013$     & 0.82$\pm 0.01$ & 0.85$\pm 0.016$     & 0.85$\pm 0.028$ \\
+% GloVe      &   0.82$\pm 0.022$     & 0.81$\pm 0.019$ & 0.84$\pm 0.026$     & 0.81$\pm 0.022$ \\
+% Pretrained &   0.76$\pm 0.026$     & 0.79$\pm 0.009$ & 0.75$\pm 0.037$     & 0.80$\pm 0.016$ \\ \hline
+%   \end{tabular}
+%\end{table*}
+
+
+%Gehrmann et al. also use Kim's CNN architecture to attempt to identify particular patient phenotypes from patterns discovered in their medical notes. In particular, as is the case in our research, specific emphasis was placed on the identification of ``frequent flyer" patients. Due to the necessity of manual annotation, the dataset in Gehrmann et al.'s research was small, with some 1610 cases available for both training and testing purposes. Gehrmann et al. automatically extracted clinical features using cTAKES, which were then used as the features in the CNN. Prior to their treatment by the CNN, the words were transformed into word embeddings using Word2Vec (W2V). The CNN achieved a high F-score across all tests, though results differed significantly, depending on the specific phenotype being tested. 
+
+%Unfortunately, as mentioned by Gehrmann et al., a direct comparison between the different papers based upon their reported metrics is difficult due to the divergent applications and datasets under consideration. While the types of neural networks differ significantly between researchers, all of the literature discussed above shows the potential strength of artificial neural networks in connection with EHR, with deep neural networks in particular having proven effectiveness. 
+
+
+ %One-hot encoding of lexemes with contextual conservation generated adequate results, and in testing proved the most suitable representation for Convolutional Neural Networks. Although the CNN model achieved good results in all categories, it was nonetheless consistently outperformed by Recurrent Neural Networks using LSTM. %FIX THIS! >> % 
+%Although Recurrent Neural Networks using LSTM performed well using all data representations, the use of word embeddings saw a significant increase in the potential output of this classifier. The accuracy above relates to word embeddings that did not feature medication and contraction reconciliation. Accuracy of the RNN rose to 0.86 on word embeddings generated from the fully preprocessed corpus. This combination was the most successful in identifying true positive and negative FAs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Data from currently available studies on presentation rates for FAs in
+OOHC is variable. FAs typically comprise between 7.7\% and 20.1\% of OOHC patients depending on
+the setting and country.\cite{leutgeb2018patients} Sociodemographic characteristics such as social deprivation or low
+income are factors that have been linked to frequent attendance in OOHC. Infants and
+elderly patients are also more likely to be FAs in OOHC.
+
+%FAs are much more likely than the general population to suffer from complex co-morbidities, including ill-defined long term physical conditions.\cite{patel2015clinical} 
+
+In addition, in some studies, patients
+with chronic diseases and those suffering from psychiatric disorders, have been identified as frequent or very FAs both in primary care in general and in OOHC
+care (though such morbidity may not be apparent in individual incidents of care) \cite{ng2015frequent}. Moreover, FAs with chronic diseases presenting at an OOHC-center often additionally suffer from major depression. Such additional mental disorders are underreported in
+OOHC \cite{bhroin2019profiling}. These factors can make the early identification of probable FA cases a useful avenue for medical intervention, and potentially provide treatment more suitable than ad-hoc telenursing and triage.
+
+Some of the most important data present in the free-text are medications and information stored as contractions. These present significant issues when used as features however due to plurality of forms that these lexemes take. The measures taken to reduce the feature spread, and help reduce sparsity, focused upon different supervised learning mechanisms to provide canonicalisation of these features, as shall be explored below. 

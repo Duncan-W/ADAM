@@ -1,0 +1,135 @@
+\chapter{Introduction}
+%\setcounter{page}{1}
+
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{A}{Physics Constants}{%
+  \ifstrequal{#1}{B}{Number Sets}{%
+  \ifstrequal{#1}{C}{Other Symbols}{}}}%
+]}
+
+\nomenclature[1]{ML}{Machine Learning}
+\nomenclature[1]{DM}{Data Mining}
+%\nomenclature[1]{CFD}{Computational Fluid Dynamics}
+\nomenclature[1]{OOHC}{Out-Of-Hours health Care} 
+\nomenclature[1]{A\&E}{Accident and Emergency} 
+\nomenclature[1]{FA}{Frequent Attender} 
+\nomenclature[1]{GP}{General Practitioner} 
+\nomenclature[1]{EHR}{Electronic Health Record} 
+\nomenclature[1]{DL}{Deep Learning} 
+
+
+ As the volume, variety, and velocity of clinical data grow, there is increasing need for computational models to effectively mine these data. Machine learning is widely known for its successful industrial applications. Increased adoption of machine learning (ML) in competitive industry largely stems from the increased efficiency offered by knowledge extraction. Research concerning the potential benefit of disease detection has, in particular, gained impetus in recent years. 
+ 
+ 
+  %We are motivated by problems in the medical domain that can be formulated as binary supervised classification problems, the application of which in this case is the prediction of patients who will have high level of contact with health care providers. We hope through these means the provision of medical solutions that are personalised and less costly may be developed, and finally, improve the quality of care for such patients.
+ 
+ Traditional health care models of medical treatment, limited to a single option has provided somewhat procrustean solutions to patient needs, are slowly giving way to concepts concerning both personalised health care and community based intervention \cite{mahato2017paper}.
+ Nowadays, the development of decentralised regional programmes is increasing the avenues of treatment available for patients \cite{iyengar2016role}. 
+
+The thesis of this research is that through the mining of Electronic Medical Records containing mixed types of data, and extracting patterns from the processed data, patients can be successfully categorised through means of supervised machine learning early in their engagement with health care providers. This categorisation has quite narrow factors: the aim of which is to provide recourse to patients that are less suitable to the health care provider being examined in the course of this research; specifically, an out-of-hours health care cooperative.
+
+
+ 
+
+
+\section{Motivation}
+
+Frequent use of helplines, emergency departments, and primary care is heavily associated with serious medical conditions, the requirements of which are often not being met in the recourse offered to these patients \cite{daniels2018better}.  Emergency and out-of hours primary care prove to be ill adapted at treating many of these patients. Although these facilities are adept at handling acute episodes, by necessity these healthcare providers are limited to the short-term, superficial treatment that will not engage with the primary issues facing this cohort.  A growing body of research has suggested the creation of a specific arm of healthcare provision, featuring staff specifically trained to treat frequent users cases \cite{malins2016cognitive,buja2015determines}. Moreover, strategies need to be developed to attempt to tackle underlying issues which are bringing these types of patients into contact with healthcare provision. 
+
+General Practitioners (GPs) are often the first point of contact for most people when they feel unwell, and play a crucial role as primary care in the country’s health care system. While the majority of appointments with a GP are made during the working week, a number of GP Out-of-Hours services also exist for people who require medical treatment when GP practices are closed, such as in the evening, at weekends, and on public holidays. GP Out-of-Hours services are part of a larger network of unscheduled care providers which also includes emergency ambulances and Accident and Emergency (A\&E) Departments. 
+
+ 
+ The context of this research is treatment provided by an out-of-hours health-care cooperative (OOHC\index{Out-of-hours Health Care}). OOHC\index{Out-of-hours Health Care}  act as an intermediary between GP surgeries and hospital A\&E departments. A major reason for the development of OOHC\index{Out-of-hours Health Care} was to reduce public dependence on hospital emergency departments during periods when a patient's GP may not be available. OOHC\index{Out-of-hours Health Care} are unsuited to more serious complaints, and are not meant to act as a substitution for secondary or tertiary health care. High level out-of-hours health-care management in the form of cooperatives is becoming  an increasingly common means of primary health care provision. Electronic Helath Records (EHRs) are habitually used in primary care such as this for the recording of patient data \cite{michiels2017influenza}.
+
+Out-of-hours health care is ad-hoc. Unlike scheduled medical treatment, the availability of patient data is usually limited to whatever in-house Electronic Health Record system the institution in question is operating. As such, medical histories, relating to people contacting an out of hours health care organisation, may reside in several distinct EHR systems in multiple hospitals or surgeries which may be unavailable to the out-of-hours care provider in question \cite{warner2019s}. This often results in a wide dispersal of health care data relating to individuals, thereby necessitating the development of decentralised solutions when considering the treatment of such data.
+
+Electronic Health Records are typically designed to electronically document all information that is administratively and clinically relevant in a patient's use of a health care facility. EHR\index{Electronic Health Record} are designed as a way to standardise data collection, storage, and usage. Worldwide EHR\index{Electronic Health Record} usage has grown rapidly in the last two decades, generating vast quantities of data in departments where they are routinely used \cite{safran2014reuse}. In recent years, ML approaches in the medical domain have been successfully applied to the analysis of patient symptom data in the context of disease diagnosis, at least where such data is well codified. However, much of the data present in EHRs\index{Electronic Health Record} is unlikely to prove suitable for classic ML approaches \cite{harutyunyan2017multitask}. In particular, while the use of free (or unstructured) text for clinical notes presents significant analytical opportunities, it also poses unique difficulties such as high dimensionality, noise, and contextual sensitivity. 
+
+ 
+ 
+ This thesis provides an overview of an approach to develop a framework of patient classification in the environment of EHRs\index{Electronic Health Record} where data is heterogeneous, incomplete (containing missing values), and noisy. This thesis focuses on a means to develop canonisation of data contained within the narrative-based free-text\index{free-text} notes of patients' health care data records, the processing of patient textual data to improve feature quality, and the classification of patient cases using deep learning techniques. 
+ 
+ Specifically, this research is based upon the early identification of patients who have underlying conditions which will cause them to repeatedly require medical attention, far beyond what would be witnessed in the general population. These patients are a poor match to the services provided by telemedical\index{telemedicine} out-of-hours organisations, which are predominantly designed to treat acute and emergency cases rather than chronic illnesses. Frequent users take up approximately 4\% of the working hours of the organisation under consideration: an overwhelmingly disproportionate figure, as such patients account for only 0.04\%  of the population served. 
+ % On average take up x * more time than non-FA patients
+ 
+ The equipment, software, and practices used in the organisation under investigation represent a standard mode of delivery within Ireland, and closely mirror that found throughout the United Kingdom in the provision of equivalent services. Nonetheless, we aim, in the course of this thesis, to a develop a methodology for patient classification that will not be circumscribed to the specific systems or data storage structures employed by the organisation in question, but would provide a solid basis for generalisation in the context of other hypothetical EHR\index{Electronic Health Record} systems.  
+
+
+
+\section{Problem Statement}
+\label{section:problem-statement}
+
+It would be useful for OOHC\index{Out-of-hours Health Care}, such as the cooperative under investigation, to be able to have a \textit{prima facie} detection of patients likely to become frequent users. This ability, however, is not only outside the scope of call operators' responsibilities, but would prove challenging for a human to accurately predict. This difficulty in detection is not merely due to frequent user patients being exceptional cases, but even within this cohort there is significant variance both in the demographic, and pathographic information relating to these patients. 
+
+Further challenges in the detection of these patients include the nominal complaint of frequent users (and apparent cause of their contacting the OOHC\index{Out-of-hours Health Care} organisation in the first place) being separate from underlying chronic issues. This inadvertently acts to obfuscate the more significant problems relating to these patients. Furthermore, these nominal complaints are liable to be different (in either detail or magnitude) with each call. 
+
+While patient medical histories are part and parcel of all EHR systems, each time a patient is treated by triage this is handled as a separate case. In the organisation in question, call handlers would have to manually search the company's database to be provided with information relating to previous encounters. Demographic and contact information are the only exceptions to this, as the structured information in these fields are used to populate current cases as a matter of course.
+
+The aim of this thesis is to provide the means to predict potential frequent user patients upon initial contact with the OOHC\index{Out-of-hours Health Care} organisation. To this end the thesis must provide a formal definition, with respect to the OOHC\index{Out-of-hours Health Care} organisation in question, of what constitutes \hl{a} frequent user, an episode of care, and a case record. The data discussed within this thesis relates to a subsection of this organisation, covering a distinct geographical area in Ireland for the year 2014.
+
+\newpage
+
+\section{Objectives}
+\label{section:thesis-objectives}
+
+Objectives for this research include:
+
+\begin{enumerate}
+  \item The capacity to process raw output from medical systems in such a manner that they can be used in a research capacity. This includes automated anonymisation, extraction, and normalisation of data stored in our collaborator's systems. These data should be analysed to discover the broad characteristics of both the general population, and outlier cases that are the subject of the thesis' investigation. The identification of features which may be useful in predictive analytics must also be performed.
+
+  \item The development of machine learning techniques in the context of the domain specific natural language that features within case information. We endeavour to create means to disambiguate overloaded signifiers that, in their unprocessed form,  result in polysemy in the clinical notes. In particular, the treatment of potentially high value terms, that may be recorded in abbreviated or acronym form is a key objective in the preprocessing of this data. Feature reduction in relation to such contractions, and also the abstraction of medical identifiers, are additional processes to be conducted in this stage.
+
+% You say decentralised a lot
+
+
+  \item This thesis will also outline the generation of a data analysis solution with respect to OOHC\index{Out-of-hours Health Care} patient medical informatics. Data relating to patients is incomplete, as patient information which resides with patients' general practitioners or in hospitals is not available to the OOHC\index{Out-of-hours Health Care} in question. As such, case data within the OOHC\index{Out-of-hours Health Care} often form little more than partial snapshots into a patient's medical history. The incomplete nature of patient medical histories is a typical feature of OOHC\index{Out-of-hours Health Care} \cite{yadav2018mining,moskow2015identifying,petersen2019health}. 
+
+  \item As there exist several forms that the unstructured data can take, and also several deep learning architectures which can be used for the purpose of classification, an appropriate configuration will have to be derived.  Hyperparameter optimisation, and other measures to further improve accuracy within the chosen configuration will be explored. Subsequently, an inspection of what features perform best in terms of case classification will be executed, and the implications this may pose in relation to FA patients discussed.
+\end{enumerate}
+
+
+%Further objectives include the integration of structured and unstructured data,  
+
+\section{Contributions}
+
+This thesis makes the following contributions 
+
+\begin{enumerate}
+  \item \textbf{Quality of services and tools:} A framework which improves upon the state-of-the-art capacity to predict frequent user patients in unseen, real world data.
+  \item \textbf{Data quality:} Description of novel means to process medical text - solving extant issues concerning aberrant or inconsistent methods of recording medical terms in unstructured text. The methodology we adopted to solve these problems allows the approach described to be applied in relation to any English based free-text\index{free-text}.
+  \item \textbf{Data analytics and mining techniques:} An advance in the understanding of Deep Learning with respect to natural language in the medical domain; providing an analysis of competing approaches which have hitherto not been approached.
+\end{enumerate}
+
+
+
+\section{Thesis Structure}
+
+
+
+To achieve the objectives outlined above, the remainder of this thesis has been
+organised as follows:
+
+\textbf{Chapter 2} examines the context within which this research takes place and the bearing this has upon data-mining (DM) and ML approaches, the problem domain, and some of the research constraints. The methods used to compose the dataset that is treated as part of this dissertation will be discussed, followed by a detailed examination of the corpus; giving an oversight of the potential value provided by the different aspects of the dataset. This chapter is designed to both motivate and define the problem central to this thesis. 
+
+
+\textbf{Chapter 3} provides a description of the extant state of the art research in our problem domain, and some of the methodologies that have been developed to treat medical data similar to that being examined in this thesis. Literature concerning both high-use prediction and medical text processing will be discussed at length (relating to this thesis' classification objective and main source of features respectively). Difficulties of natural language processing as they relate to a medical context will be examined in this chapter.
+
+% of the environment from which our data originates and the significance this posed, both in terms of the motivation for or research, and the issues which were encountered when attempting to develop our solution.
+
+\textbf{Chapter 4}  develops a proof-of-concept, and analysis of the competing ML approaches available for classifying patient cases. Looking at the types of data discussed in Chapter 2, this chapter looks at potential features for classification. This chapter also outlines the system for classifying patients to be developed - detailing both the challenges and proposed solutions when addressing the issues raised in earlier chapters. 
+
+\textbf{Chapter 5} establishes data transformation methodologies in order to improve the quality of data being analysed in depth in this chapter:  focusing on normalisation of data, medical transformation, and contraction clustering. The theory, methodologies, and results from these processes will be discussed at length in this chapter.
+
+\textbf{Chapter 6} discusses the means of implementing our solution, focusing on the development of optimum neural network architecture for case classification. This chapter discusses the possible architecture and data types that could be used for the classification of patient cases, before resolving the best combination of such for achieving this goal. The chapter discusses gating techniques, different means of generating word embeddings, and the impact of dimensionality and feature length on classification performance. Finally this chapter provides an explanation for the performance of the system that has been developed.
+
+\textbf{Chapter 7} reviews the thesis, provides some details relating to future work, and discusses ethical implications for this work.
+
+
+
+
+%data mart 
+
+%:1.  How to discover which features are most successful in identifying problem patients.2.  How  to  determine  the  importance  of  different  contextual  elements  in  relation  totextual features.3.  The extent to which features can be deemed independent of one another11
+%4.  The threshold of cases (i.e.  data) about individuals that is required before a pre-diction can be arrived at.Of  particular  importance  in  the  choice  of  algorithm  is  the  manner  in  which  theissue  of  overfitting  is  addressed.   High  demand  patients  are  outliers  by  their  nature:representing less than 1\% of patients within the corpus.  Although high demand patientshave a significantly higher than average volume of cases, without significant investmentthe limited cohort is liable to produce bias within a supervised learning environment.
+

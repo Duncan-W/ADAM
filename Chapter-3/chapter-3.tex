@@ -1,0 +1,227 @@
+
+ \chapter{Related Research}
+\label{chpt:related-research} 
+
+
+ 
+
+ 
+ 
+\section{Introduction}
+
+In this section the literature relevant to this thesis in both prediction of patients, and treatment of textual features related to patient cases is reviewed. In addition, a survey of the different objectives that are the most recurrent is presented. Given the volume of the literature, only the most significant works amongst them are presented. Much of the literature in this chapter will relate specifically to the problem domain, while additional literature relating to potential solution implementations will be addressed in \\ Chapter \ref{chpt:machine-learning}.
+
+\section{Patient Classification}
+
+
+
+\subsection{High Use Prediction}
+
+There is no extant work predicting high use patients of non emergency OOHC\index{Out-of-hours Health Care}. To the extent there is research concerning frequent users in other settings, prediction is at most limited to regression analysis, typically of well structured data that requires minimal processing. While many researchers agree that early detection of frequent users is an important area of research \cite{vu2015screening,chan2018frequent,meng2017disordered}, the exact characteristics that represent frequent users is an area that is currently not well understood.    
+Logistic regression using standardised information derived from EHR\index{Electronic Health Record} is the predominant means by which FA use of ED has been achieved to date \cite{billings2013dispelling,smits2013predictability,scott2014describing}. However there are some characteristics which distinguish the leading researchers in this area. 
+
+Smits et al. have worked extensively on the analysis and prediction of frequent attenders in general practice using clinical data obtained in the Netherlands \cite{smits2009predictability}. Each patient analysed by Smits et al. has had an associated list of current medical problems, known as a \textit{problem list}. These problem lists are compiled by the patients' GPs, and describe any medical problem (disease or complaint) which needs continuing medical attention or monitoring. They also detail  any complaint or disease present for more than 6 months (excluding all (minor) short episodes) \cite{smits2009predictability}. Each problem on each list was coded using the International Classification of Primary Care  \cite{bentsen1986international,verbeke2006international}. Having more than one year's worth of data, Smits et al. were able to distinguish between frequent attenders and persistent frequent attenders (that is to say, FAs that remained FAs for multiple years) \cite{smits2013predictability}. 
+
+
+While it is possible that these problem lists featured overreported problems (complaints that were merely historical and had already been resolved), and may not contain some psychological conditions \cite{smits2013predictability}, the type of dataset  that Smits et al. were typically considering was very clean, and thus in a state suitable for multivariable logistic regression analysis. Smits et al. achieved an area under the curve of the receiver operating characteristic \footnote{this metric will be discussed in more detail in Section \ref{section:LSTM-results}} of up to 0.67, which they show to be the effective ceiling to this approach in the absence of better predictors \cite{smits2013predictability}. This is therefore an example of well codified data that nonetheless had significant limitations in its capacity to identify the target group. Notably, the introduction of features representing the presence of medically unexplained problems, prescriptions of psychoactive drugs and antibiotics had provided no improvement in the capacity to predict frequent attender patients.   
+
+
+
+%: The existing model (c-statistic 0.67) discriminated moderately with predicted values between 7.5 and 50 percent and c-statistics of 0.62 and 0.63, for validation in the original network and SMILE network, respectively. Calibration (0.99 originally) was better in SMILE than in the original network (slopes 0.84 and 0.65, respectively). Adding information on the three new predictors did not importantly improve the model (c-statistics 0.64 and 0.63, respectively). Performance of the model based on the combined data was similar (c-statistic 0.65).
+
+%This model included the variables: age (Odds ratio (OR) 0.99 per year), number of active problems (OR 1.13 per additional problem), presence of any chronic somatic problems (OR 1.55), any psychological problems (OR 1.72) and the monthly number of analgesic prescriptions (.4: OR 2.06). [14] \cite{smits2013predictability}
+
+%Five predictors were retained in the final model: age, the number of problems on the GP's problem list, presence of any of three chronic somatic illnesses (diabetes mellitus, cardiovascular illness, and respiratory illness), presence of a psychological/social problem, and the use of pain medication (Table 2). None of the interaction effects proved significant at the 10\% level. The prior probability of 15.4\% (470/3045) of persistent frequent attendance could be updated, using the model, to at best 3.3\% (lowest value) or 43.3\% (highest value). The 10th and 90th centiles of the posterior probability distribution were 7.4\% and 26.3\% respectively, indicating that the model does not perform very well either to rule out persistent frequent attendance or to rule it in. The Hosmer–Lemeshow test showed a P-value of 0.254, thus indicating no strong evidence against good model fit. As a summary of the model's overall discrimination, the model's area under the receiver operating characteristic curve (AUC ROC) was 0.67 (bootstrapped bias-corrected 95\% CI 0.64 to 0.69).
+%\cite{smits2009predictability} % ^^^ SAME GUY!
+
+As stated above, research concerning frequent callers is much thinner on the ground than that concerning frequent attendance. This makes prediction involving FC (specifically relating to ambulance services in this case) as performed by Scott et al.\cite{scott2014describing} exceptionally rare. This research, like that discussed above, again presents the usage of multiple regression analysis, albeit including some metadata specific to calls such as ‘date of call’ and  ‘time of call’. However, Scott et al.'s research was not designed to predict patients \textit{per se}, but rather as an explorative measure to identify what circumstances are most associated with a patient being an FC. Similar to Smits et al.'s research, the primary feature used was a dispatch code, which despite \hl{being} a different type of encoding from that featured in Smits et al.'s work, was nonetheless a standardised code that boasts a large usage basis within the medical domain. However only 74.5\% of call data had valid dispatch numbers. Scott et al. discovered a strong correlation between dispatch codes relating to `sick person' and `psychiatric' behaviour, while codes relating to falls and those from a `Healthcare professional' were inversely related to FC.
+
+
+%For the top 100 frequent callers, the \b{Shapiro–Wilk} test indicated that the total calls (p<0.001), number of different reasons for calling (p=0.016) and number of times conveyed (p<0.001) were not normally distributed, but the age of the callers (p=0.357) was normally distributed. Multiple regression analysis was conducted to determine which primary call reasons were able to predict the total number of calls made by the top 100 frequent callers. The assumptions of linearity, normality, reliability and \b{homoscedasticity} were not met,16 so the data was cleaned. A \b{Cook's Distance} (Di) value of >1 was used to remove patients (n=4, Di=1.281 to 2.841) with a large influence on the data. Once these outliers were removed, \b{variance inflation factors} (VIFs) of >10 were used to determine any collinearity (n=0). A plot of the \b{studentised} residuals was then used to remove any outliers (n=4), identified by being >3 SDs away from the mean. The \b{Breusch–Pagan test} was then used to determine homoscedasticity (x2=0.00015, df=1, p=0.990) and VIFs ranged 1.075–3.612. The final multiple regression analysis contained 92 participants. \cite{scott2014describing}
+
+
+%(Mostly `sick person' and psychological issue indicated frequent caller, while healthcare professional call and falls indicated a non frequent caller.)
+%Significant predictors are shown in Table 1. ‘breathing problems’ and ‘sick person’ contributed the most to the model, followed by ‘psychiatric/abnormal behaviour/suicide attempt’, ‘abdominal pain/problems’, ‘chest pain’ and ‘falls’. For most call reasons, for one call increase in the independent variable, there was approximately one overall call increase. The two main exceptions to this were ‘choking’ and ‘assault/sexual assault’, which increased by 4.5 Calls for codes ‘healthcare professional call’ (95\% CI 0.402 to 2.885) and ‘sick person’ (95\% CI 1.398 to 1.694) resulted in around 1.5 more calls overall.\cite{scott2014describing}
+
+Pasgaard et al.'s research featured a very extensive survey which was used to establish the socio-demographic status of some 23384 individuals (supplemented with information from the Income Statistics Register, Population Education Register, Danish National Health Service Register, and Danish Civil Registration Register) \cite{pasgaard2018social}. Like much other research into frequent users, cutoff values were used in the definition of frequent attendance. This sort of study conducted by Pasgarrd et al. looks at data concerning `social capital' \cite{coleman1988social} which medical analysis typically doesn't have access to \cite{frost2017using}. As such, while it produced some interesting insights into individuals' perceptions of their place in society, and the connection this may have with frequent attendance, it is difficult to see how one may ameliorate existing data sources which do not contain such in-depth user survey information. Prediction was performed using the Random Forest algorithm, but this work was performed merely to determine characteristics of frequent users, and no testing was performed to ascertain the accuracy of using extracted  frequent user characteristics on unseen data to determine which patients may be, or become, frequent users. 
+
+Frost et al.'s prediction methodology \cite{frost2017using} is research which most closely relates to this thesis. Frost et al. produce a comprehensive prediction methodology in the context of FA utilising ED. Frost et al. unlike some of the researchers mentioned above, explicitly randomly split their data into training and validation cohorts (although no testing cohort is present). An unusual aspect of this research is that only patients over the age of fifty are considered, owing to particular motivations in relation to FA intervention on the part of Frost et al. To the best of the author's knowledge, this study marks the only known existing research to use free-text\index{free-text} in FA prediction. Lexical tokens were extracted by these researchers from patient case text, and filtering was performed to remove stop words and infrequent terms. This study had access to multiple years of data, so these researchers were able to use the data from one year to predict occurrences in the subsequent year. A slight peculiarity of this study is that it delineated patients both upon total number of visits, and also in terms of total costs associated with those patients. AUC ranged from 0.7 to 0784, depending on the type of prediction being made. Frost et al. point out the absence of any known extant prediction relating to high use of ED based upon primary care EHR\index{Electronic Health Record} data. 
+
+
+%We dichotomized this variable into frequent attenders, who constituted the upper quartile of utilization (>.32 consultations over the 148 week period), and others. A number of different cutoff values are used in the literature in regards to operationalizing frequent attendance, the current approach was chosen on the basis of previous literature [10] and different cutoffs are tested to ensure the robustness of the operationalization.\cite{pasgaard2018social}
+
+%The association between the four dimensions of social capital and frequent attendance within 148 weeks of follow-up was explored through logistic regression. The unadjusted odds ratio (model 1) was estimated for each of the four social capital dimensions in individual models. Model 2 included age, education and income as potential confounders. Model 3 included the same variables as model 2, with the addition of the physical and the mental health component scores of the SF12.\cite{pasgaard2018social}
+
+%To minimize a potential bias due to missing values (Additional file 1), multivariate imputation by chained equation (MICE) [35] was used. MICE is generally the preferred method of imputation when missing values occur in several different types (i.e. categorical, continuous etc.) of variables in the data set [36]. The method used for prediction was Random Forest, a machine learning technique well suited to handle nonlinearities and high dimensional data [37, 38]. Nonlinearities were suspected due to the complex relationship between gender and social capital. The imputation model featured all variables included in analysis models, as well as several additional variables from the original dataset, to satisfy the “missing at random” assumption [36]. The R code used for the imputation and a list of variables used are available in Additional file 1.\cite{pasgaard2018social}
+
+%All results are reported as odds ratio with an estimated 95\% confidence interval. The primary analysis was carried out on the imputed data, and the results reported are pooled according to Rubin’s rules [39].
+
+Readmission prediction is an area obliquely related to the topic of this thesis and will not be considered as part of related literature. While nominatively both readmission and frequent users are similar in that they both relate to a patient repeatedly utilising medical services, most of the aspects of these respective fields of study are divergent. Readmission refers exclusively to secondary and tertiary health care, and generally relates to unanticipated follow-up care very shortly after a patient's treatment has concluded (usually within 30 days of such) \cite{brudvik2015definition}. Readmission may reflect badly upon the healthcare provider, and certain systems penalise hospitals which experience higher than anticipated rates of readmission \cite{fonarow2017hospital}. Furthermore, readmission research typically focuses on a specific medical subdomain, such as myocardial infarction \cite{kociol2012international}, stroke \cite{boehme2018infections}, transplant surgery \cite{covert2016predicting}, etc. Finally, owing to the origin of this data, case information derived from EHR\index{Electronic Health Record} for readmissions are likely to feature standardised recording methods.        
+
+
+\subsection{Disease Prediction }
+
+The task of identifying a set of patients for community based intervention, based upon certain characteristics common to this cohort, shares some conceptual ground with disease prediction. Disease prediction is an area of research renowned for its difficulty. Where a patient presents with clear signs, human physicians are typically considered the optimal means of  providing diagnoses. However, individuals may exhibit characteristics that indicate the propensity for a disease that are themselves relatively innocuous, at least in isolation. This is particularly the case when these characteristics may be shared among a large population \cite{vos2016global}. The presence of characteristics that may potentially be indicative of a disease, that place a strain on the capacity of human cognition to discern patterns, include when these characteristics have no known direct association with that disease in existing literature; where such characteristics are apparently too generic to be useful; or where there are non-obvious interactions between different characteristics. The greater the volume of data that is required to identify previously unknown patterns, the more substantial a burden this poses, from a human perspective. 
+
+These aspects lend themselves to a machine learning approach to developing predictive models. However, the different approaches taken to disease prediction is dependent on the types of features available for classification purposes. 
+
+If the features are highly correlated to the prediction problem, feature selection is not a significant issue. For instance in Singh et al.'s prediction system for heart disease \cite{singh2018effective}, the features available included the type of chest pain experienced by the patients, their fasting blood sugar, resting blood pressure, whether or not they experienced exercise induced angina, their serum cholesterol, whether or not the patients were obese, etc.
+
+Many of the feature selection processes in medicine assume scalar or categorised data presented in a consistent or normalised form. Most of the feature selection techniques that can be employed on this medical data fall into filter and wrapper techniques, which despite information gain and accuracy, suffer from potential disadvantages related to the independent consideration of features, and poor performance in high dimensional data-sets, respectively \cite{long2015highly}.
+
+Occurrence of specific diseases in large populations are, by their nature, aberrant. Disease prediction conducted among apparently healthy individuals must thus weigh the likelihood of disease occurrence against the importance of its detection. A system which is biased in favour of the majority class (that is to say, a lack of occurrence of a given disease) may have an exceptionally high accuracy without actually detecting any true positives. It is clearly not acceptable for a public health system to be right `most of the time' if it fails to adequately treat the population it is meant to service.        
+
+\begin{comment}
+****************************
+
+Correlation based feature selection (CFS)
+Variables Importance (VImp)
+Recursive Feature Elimination (RFE)
+hamming distance
+
+post- hoc (model agnostic) explainability as opposed to ante-hoc (model specific) explainability is what you are doing. 
+
+
+XAI (explainable AI)
+
+
+
+
+
+Diseases are rare
+
+Some disease prediction works well with parameterised data. Like height and weight, age, bloods, protein markers, medications
+
+When it comes to narrative based histories things get a lot more difficult
+
+Extract from these histories. What's wrong with that? Trying to account for unforeseen, or unseen types of data. Basically hard coded. Context can be important. Negex has been developed to this end.
+
+Words like other words. Is bleeding like cut? Is hospital like emergency room? Is nurse like doctor?
+\end{comment}
+
+\subsection{Free Text Classification}
+
+It is self evident that not all words have the same potential value in terms of classification, but this is arguably particularly the case in a medicinal context, where content may be particularly loaded. While NLP in general may treat common words, such as prepositions, to be so generic as to pose inconsequential value, hyponyms in the medical domain would be typically considered to bear more value due to their specificity (compare `disease' and `diabetes'). Similarly, terms which relate to more serious conditions may be considered more `weighty' than those relating to more minor ailments (compare `infarction' and `bunion'). The same discrimination could be made in relation to medications (for instance `acetylsalicylic acid' and `morphine'). Classification using FTN generally forms two different approaches: either the discarding of lexemes which are deemed less important, or the analysis of wholesale context and the bearing this poses on the overall meaning of the text.
+
+
+
+
+%based upon 
+
+
+
+\section{Medical Text Processing}
+\label{section-rr-medical-text}
+
+%HOW DOES THIS CONTRIBUTE TO ORIGINAL RESEARCH
+
+
+%WHAT IS THE STUFF THAT YOU HAVE LOOKED AT THAT HAS NOT BEEN LOOKED AT BEFORE?
+
+%DECENTRALIZED HEALTHCARE
+
+Standardised recording of medical data may relate to pharmaceutical codes, procedural codes, diagnostic codes or topographical codes. Some EHR\index{Electronic Health Record}, particularly where EHR\index{Electronic Health Record} are used in the course of patient financial claims, may have structured or encoded fields relating to major coding standards such as the International Classification of Diseases (ICD) and Systematized Nomenclature of Medicine (SNOMED) \cite{kharrazi2018value}. While ICD-10 is habitually used in the Hospital In-Patient
+Enquiry (HIPE) scheme in Ireland \cite{hipe2018}, for hospital inpatient attendances and is linked to financial reimbursement from paper based records, it is significantly underrepresented in primary healthcare. The use of such encoded fields produces significant administrative overhead \cite{goroll2017emerging}, and many systems, such as the one under investigation in the course of this thesis, use neither encoded fields nor standardised codes to refer to diseases or treatment. Instead, diseases and symptoms can take a plurality of forms, may be misspelled or abbreviated, or are simply vague. This makes ontological use with the free-text\index{free-text} notes problematic, and adds significant complexity to the task of extracting useful data from patient case records.
+
+FTN in EHRs\index{Electronic Health Record} are written in natural language, and research concerning their usage exhibit some of the same challenges as witnessed in other processing in natural language conducted in other domains. These challenges, broadly speaking, are primarily concerned with noise and ambiguity. A great deal of literature has been produced in recent years in relation to data mining and machine learning in  the context of social media, which chiefly concerns text based natural language information posted by users. However, social media text, such as that found on Twitter or Facebook, is not entirely analogous to medical FTN. 
+
+For one thing, social media posting covers a multitude of domains \cite{deng2017adapting,leiner2018functional}, and means to successfully categorise tweets or Facebook posts is itself a laborious process. FTN on the other hand are almost exclusively related to diseases, signs, symptoms, advice, and medications. A significant difference between the NLP of social media, and NLP relating to FTN is the intended audience of the respective text. Whereas social media is typically written for a wide audience, the natural language in FTN is written by medical professionals, exclusively for use by professionals within the medical domain, and comprehension of such notes by people unused to the register employed in this environment would be quite difficult \cite{friedman2002two}. Furthermore, the writing style employed in the composition of FTN is terse, and may omit verbs, determiners, and other parts of speech that are usually used as the syntactic glue for natural language \cite{bunkenborg2019implementing}. The fact that FTN are composed in a time sensitive environment is a significant contributor to this type of writing style. Finally, albeit a less important issue, is the fact that personal opinion is omitted in FTN, thereby diminishing the volume of sentiment, and the degree to which sentiment analysis can be employed, within the FTN. 
+
+ Annotated text datasets are a useful tool in the context of NLP\index{Natural Language Processing} tasks. Particularly in the circumstance of domain specific text, manual labelling provides excellent recourse to developing extraction and interpretative techniques through rule based systems. However, such datasets must be created by hand by experts, necessitating large volumes of work \cite{dietrich2019replicating}. Besides the cost and time involved in curating such data, lack of adaptability (both from a temporal and context point of view) disfavours such an approach. 
+
+
+
+As the FTN are composed of data relating to diseases, signs, symptoms, advice, and medications, it thus follows that DM techniques need to be developed to treat these salient features. 
+
+\subsection{Terminology Extraction}
+\label{section-rr-terminology-extraction}
+
+In counterpoint to the issue concerning ambiguity of overloaded signifiers resulting in polysemy, terms that are legitimate, but have multiple polymorphs, are known to reduce the effectiveness of machine learning if each polymoph is extracted as a distinct feature. An additional issue is the way in which diseases are frequently recorded in acronymised form, and drugs referred to by specific product names (e.g. “disprin” instead of “aspirin” or "acetylsalicylic acid"). 
+
+While lemmatization can provide a suitable option for simple words by resolving root forms, and for well recognised entities Named Entity Recognition (NER)\cite{nadeau2007survey} can successfully provide generalisation, the medical textual domain is somewhat unsuited to both these techniques.
+
+Lexemes relating to diseases, drugs or symptoms rarely provide forms suitable to any sort of stemming exercise. The root forms of these features are often more conceptual than morphological: for instance “chronic obstructive pulmonary disease” should be abstracted as a “respiratory” disease. NER would also prove unsuitable to this type of domain word, albeit for a different reason. Even if it could be successfully applied, which would in itself be problematic, NER would typically remove disproportionate value were it to merely classify diseases, drugs, and symptoms as such. That is to say that while feature abstraction is a potentially useful pursuit \textit{per se}, it nonetheless clear that, for instance,  a level of abstraction whereby terms like `rash', `tonsilitis', `lupus', and `anorexia' were replaced by tokens merely denoting `disease', would represent the loss of a significant amount of valuable information.
+
+Despite the dirty nature of free-text\index{free-text} and colloquial language often used, the domain specific nature means that many of the issues surrounding the investigation of other media for medical related phenomena (such as those experienced by Paul et al. when treating Twitter data for disease related terms)\cite{paul2012model} are circumvented.
+
+%ADD SOME NLP MEDICAL PAPERS HERE
+
+\subsection{Medication Identification}
+\label{section-rr-medication-identification}
+
+Much of the relatively recent interest in medication extraction was precipitated by the i2b2 competition of 2010 \cite{demner2018finding}, which generated a substantial amount of literature on the topic over a relatively short period.  
+
+The same general problems repeatedly arise when approaching clinical notes: the presence of both semi-structured and unstructured textual data (the latter of which contains high value domain terms), the relationship these terms have upon each other in free-text\index{free-text} environments, and the means by which this data can be transformed in order to provide meaningful analysis. To date, medications have predominantly been discovered in text through use of comprehensive predefined lists, though some work may be done to overcome the shortcomings of such an approach. 
+
+Conventional wisdom states that even the most sophisticated algorithms cannot overcome all the limitations of poorly collected medication history at the point-of-care, such as open-ended free text fields, non-standard abbreviations, or invalid combinations due to uncontrolled data capture \cite{bennett2012utilizing}. Instead, ideally speaking, medication names should be correct at the time of their recording, and be in accordance with data standards \cite{richesson2010achieving}.
+
+ 
+RxNorm\index{RxNorm} is an ontology based upon the Unified Medical Language System (UMLS)\cite{bodenreider2004unified} that is related to medication, and designed specifically to record all medications available in the United States of America \cite{nelson2011normalized}. Where medication names are well recorded, this ontology may be used to extract medications from medical text. This works well with suitably written medical text, such as publications found in the PubMed \index{PubMed} database \cite{kanavos2014pubmed}. Of course this necessitates that drugs (and potentially other medications) are recorded in a manner that matches that of RxNorm\index{RxNorm}. 
+
+Using a predefined ontological list is a relatively simple but naive approach to extract medications. Nonetheless it has worked well for numerous researches, depending on the particular dataset. For instance  Levin et al. looked at the issue of discovering drug names in free text relating to preoperative drug history contained within anaesthesiologist EHRs\index{Electronic Health Record} and used the list approach, based upon RxNorm\index{RxNorm}, extensively  to this end \cite{levin2007extraction}. While a variant of the Soundex algorithm \cite{mckenna1998client} was employed in the course of this research to increase recall of pharmaceuticals, their strong results show that in certain circumstances ontological approaches can be successful \cite{levin2007extraction}.
+
+
+%This , with a variant of Soundex applied in order to increase recall of pharmaceuticals. This approach seems partially inspired by the overarching design to match proprietary names to generic equivalents. Ultimately, Levin et al. achieve an exceptionally high PPV (Positive predictive value) of 98.8\% but a decidedly more modest NPV (Negative Predictive Value) of 76.2\%. 
+
+Hua Xu et al. also based their system largely off of RxNorm\index{RxNorm}, and supplemented their findings using a regular expression tagger \cite{xu2010medex}. Filtering of English words in this system is based upon the Spell Checker Oriented Word Lists (SCOWL)\index{Spell Checker Oriented Word Lists} repository \cite{atkinson2004spell}. The system that Hua Xu et al. employ required some degree of manual inspection of ambiguous terms to be conducted by a physician, but seems to have had some capacity to handle abbreviations that were hitherto unknown by the system. However, the exact means by which abbreviations are mapped to their longer forms is not explored.  Results comparable with Levin et al.'s paper were achieved with an F-measure of 92\% on clinical notes. 
+
+Yan Xu et al. were among those who used the 2010 i2b2 dataset to further investigation into the processing of medicinal textual data \cite{xu2012named}. Unlike some other research, the annotations supplied with the dataset were used solely for testing purposes by Yan Xu et al. As such, one of the primary ambitions of the research lay on the successful extraction of medical concepts within the free text notes of the i2b2 dataset. 
+
+Although the i2b2 2010 challenge established the named-entities of ``medical", ``problem", ``treatment", and ``test", Yan Xu et al. identified that members of these classes did not necessarily appear in a similar manner to one another. In particular, Yan Xu et al. established a sub-class of "treatment" relating to medication, due to the fixed distinct semantic pattern that pharmaceuticals tended to take within the corpus. Consequently, an elaborate regular expression solution was built to capture these particular concepts.    
+
+Attempts to define medications purely through use of a predefined ontology (namely UMLS) fared poorly for Yan Xu et al. due to the abundance of lexical variations that medications were subject to. Due to the variety of trade names and synonyms, Yan Xu et al. declared that it may be ``impossible'' to construct a dictionary that will reflect this plurality yet reliably stay up-to-date. 
+
+Yan Xu et al. attempted to deal with the ambiguity of acronyms and abbreviations by using clustering of both types of contraction into their respective classes (i.e. ``medical'', ``problem", ``treatment", and ``test"). This clustering was based upon the distributional and morphological information of the lexemes. This is, however, confusing, as the means of discovering such lexemes is not described, and acronyms and abbreviations by their nature tend to offer poor morphological information.  
+
+While clear that rule based systems are a crucial part of the solution provided, Yan Xu et al. elaborate that the output of the rule based systems was not an end product in itself. Rather, the output from these rules was fed to classifiers, the result of which is used to achieve the aims of the i2b2 challenge. Fundamentally however, Yan Xu et al. demonstrated that the switch to a model which extracted treatments by looking for telegraphic sentences greatly improved feature extraction when it came to medicines mentioned within the text.
+
+%In its raw format the dataset does not provide any keys with which to identify patients. The Irish context within which the data was collected is significant in relation to this, for until recent legislative change,~\cite{kelleher2015privacy} there has been no legal basis within Ireland for national identifiers for patients. Instead of a conventional relational database, cases and patients are not linked, and in place of a foreign patient key being recorded in case information, a small summary of the patient’s details (such as their name, date of birth, registered surgery, etc.) is included in the cases table for each entry. These patient details are both complete and reliable however, due to their being automatically populated from the respective patient’s table by the operator on duty. Cases, meanwhile, use a non-unique index, excluding nulls. 
+
+%Cases have two different types of duplicate: the first appears immediately after its mimesis and will typically include appended free-text information about the entry that preceded it, but may also feature different attribute information, depending on the source of the entry. The second type of duplicate merely shares the same key as some other case, but will have no other direct connection to these cases. 
+
+%In accordance with the Data Protection Act (2003), potentially identifying features relating to patients cannot be included in data available to access by a third party.~\cite{commissioner2004data} This had a significant bearing on the manner in which data was to be extracted, if vital semantic information was to be maintained for the purposes of the research during mandatory redaction processes.
+
+%It was thus necessary to develop a means to successfully build patient profiles from this data, including the deletion of duplicate information, linking of cases with patients, and tracking of changes in cases over time. 
+
+
+\subsection{Co-reference Resolution}
+\label{section-rr-coreference-resolution}
+  
+Error-correction, identification of acronyms and abbreviations, and abstraction of both disease and drug names are arguably useful precursors to a meaningful analytical treatment of free-text\index{free-text} notes within medical corpora. The reduction of equivocation and consolidation of the frequencies of similar words and phrases through conflation is a standard approach to aid textual analytics. Furthermore, providing a means to supplant the extant form that these notes take with a structured ontological approach may also provide increased semantic value and achieve homogeneity within the corpus.
+
+
+For probability based spelling correction a number of issues are apparent. EHRs\index{Electronic Health Record} contain a plurality of colloquial words and domain specific terms, making the choice of training set problematic. Moreover, the wide variance of acronyms and abbreviations that are present is likely to confuse efforts to identify true-positive errors from valid acronyms. There is no authoritative nomenclature for contractions used within the organisation in question (Caredoc\index{Caredoc}).  The wide variety of forms that acronyms can take (there being no consistent morphological signifiers), combined with the potential for neologisms, provides additional challenges to be overcome in this context. 
+
+Symbols are also subject to polysemy. For instance, the plus sign can be part of an acronym (e.g. “a + e”), be a conjunction (that is, a placeholder for ‘and’) or indicate some sort of accretion or intensification (particularly for patients’ symptoms). As such, it is necessary that any pre-processing which is to be employed in the context of the data ensures that cleaning and tokenisation takes place without non-alphanumeric characters being erroneously expunged. 
+
+The value of the consolidation of clinical data to standard classifications has long been understood in
+terms of the integrity and analysis of biomedical text. As stated by Mate et al., due to the freedom accorded
+to users in entering data, unstructured free-text\index{free-text} in EHRs\index{Electronic Health Record} are consequently both the most comprehensive data
+source, and the most susceptible to noise and local variation \cite{mate2015ontology}.
+
+The value of abbreviation and acronym unrolling has long been appreciated within biomedical literature.
+However, the quality of biomedical literature treated to the end of contraction expansion varies significantly.
+Much of the extant research concerning the identification of contractions and their full length forms are based
+upon corpora where contractions are defined at some point in the text. For instance, Singh et al. look at
+identifying abbreviations exclusively within the context of Medline\index{Medline}, a database of high quality journal
+publications in biomedical sciences, where contraction definitions are written into the publication in tandem
+with the contraction's usage \cite{singh2013designing}. This type of contraction is defined as a "local abbreviation" and is
+outside the scope of this thesis (because FTNs\index{free-text} do not feature these kind of in-line definitions). Instead this thesis is concerned with "global abbreviations" \cite{collard2015use}. 
+
+As stated above, the manner in which the clinical data is recorded by OOHC\index{Out-of-hours Health Care} phone operators, who
+consistently discard verbs and other standard parts-of-speech for the purposes of speed, makes
+contextual analysis in this context more challenging than other types of biomedical corpora.
+Like many other authors, Nautial et al. look exclusively at identifying acronyms and their respective
+long forms  \cite{nautial2014finding}. Although unlike the related research quoted by Nautial et al., whereby definitions
+are provided in close proximity to the acronym’s usage (e.g. Taghva et al.\cite{taghva2011acronym}), Nautial et al. are nonetheless dependent upon the entire string relating to the full-length form being present somewhere in the text.
+
+Unfortunately, this approach may be unsuitable for lower quality textual environments where legibility is sacrificed for transcription speed. For instance, in our corpus the common acronym “copd” is written 5320 times, but its long form “chronic obstructive pulmonary disease” is not written once within the corpus. However, the long forms of abbreviations, which are considerably faster and easier to write than that of acronyms, are much more likely to appear.
+
+
+\section{Summary}
+
+This chapter has outlined the state of the art approaches in terms of frequent user prediction, and the issues that are common to analytics in the medical textual domain. Research into frequent use prediction has hitherto typically used relatively simple statistical approaches. One of the key reasons for this seems to be a dearth of useful features for such analytics. Unscheduled primary and secondary out-of-hours care\index{Out-of-hours Health Care} is liable to generate data that is isolated from patients' medical histories (held, for instance, by their GP). It is also likely to generate data that is unstructured and noisy. This presents a significant hurdle to develop successful classification techniques. Even where structured information is available (where it was manually compiled by a physician, in the case of Smits et al., or was provided in the form of metadata, as is the case with Scott et al.) these structured features ultimately proved to have limited value for these researchers.
+
+FTN\index{free-text} are liable to possess a significant amount of valuable information that can be used in predictive analysis. DM techniques with relation to FTN are largely designed to identify and treat domain specific terms. However, noisy natural language relating to a specific register, results in a particularly challenging environment in which to perform extraction and transformation processes. While ontologies form a significant potential resource (as they are typically domain specific), ontologies typically have no inbuilt means to handle noise or textual errors.% The flurry of research that the i2b2 competition of 2010 produced     
+
+This thesis will build upon the medical textual treatments described in this chapter (terminology extraction, medication reconciliation etc.) with the intention of providing high quality textual features for the purposes of high-frequency patient classification. To this end, the intention of this research is to improve upon the existing high frequency patient research described in this chapter.  

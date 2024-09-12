@@ -1,0 +1,72 @@
+ \chapter{Conclusions}
+\section{Introduction}
+%\subsection{Motivation}
+
+This thesis describes a full pipeline of data mining in relation to an organisation and dataset that has hitherto not been subject to any large scale analytical processes.  The thesis problem of frequent users of OOHC\index{Out-of-hours Health Care} are a difficult cohort for study, owing to their sparsity, disparate demographics, and nonstandardised definition (including an incomplete and inconsistent list of signs and symptoms relating to such patients within medical literature). This concluding chapter will discuss the means used in this thesis to classify cases as belonging to frequent users, the measurement of its achievement, and what future work could potentially be pursued on the foot of this thesis' findings.  
+
+
+
+
+\begin{comment}
+\section{Ethical Considerations}
+
+The primary ethical consideration that arises from the research in this thesis is the prospect of a medical care provider theoretically using a system, such as the one described in \ref{}, not for the purposes of early detection of frequent users for intervention and treatment, but rather the opposite: to purposefully exclude these patients from treatment due to the increased level of care that they require, relative to the general population. It is clear that a means of classifying frequent user cases cannot be done in isolation  
+\end{comment}
+
+
+
+\section{Research Findings and Conclusions}
+This section presents the research findings and conclusions with respect to each 
+research objective as described in Section \ref{section:thesis-objectives}. \\
+
+\noindent\textbf{The capacity to process raw output from medical systems in such a manner that they can be used in a research capacity.}
+
+One of the more challenging aspects of the research was the treatment of sensitive, real-world data sets stored on live servers of an organisation with limited analytical development. Creating a methodology to extract and clean the high level representation of patient cases was followed by the successful analysis of the data-mart representation of the dataset. This gave a broad overview of a large population of patients, and helped identify potential approaches to patient case classification.\\
+
+
+\noindent\textbf{Development of machine learning techniques in the context of the domain specific natural language that features within case information.} 
+
+The treatment of medical cases proved the hypothesis that FTN\index{free-text} provided sufficient information to classify patients, despite the noisy context, inconsistent recording practices, and heterogenous data presented within these notes. Somewhat more surprising was that the thesis proved that the parameterised data contained within the corpus was virtually redundant in the face of well processed FTN, at least in the objective of classifying frequent user cases. \\
+
+\noindent \textbf{Domain-sensitive approach to the treatment of medical terms.} 
+
+The thesis presented novel approaches to process medical terms as they might appear in hand-typed free text. These approaches successfully applied textual transformation operations whilst keeping error to a minimum. These approaches were not once-off measures that are exclusively tied to the data set under consideration, but can theoretically be used in any FTN context (provided it is recorded in English). These methodologies have potential application in the context of any historical medical textual data that has been subject to inconsistent recording techniques. \\
+
+\noindent \textbf{Classification of frequent users.} 
+
+This thesis develops a state-of-the-art approach for detecting frequent users in OOHC. This approach requires neither prior background knowledge in relation to the problem definition, nor sophisticated feature extraction techniques on the part of the user when developing training or testing data sets. The model has proven applicability in the course of robust testing and performs well, despite having no access to the previous medical history of any patient it is classifying.     
+
+
+\section{Medical Application}
+
+The machine learning approaches pursued in this thesis were not developed with the aim of supplanting medical professional's agency, but rather as a diagnostic aid (in much the same way as CDSS\index{Clinical Decision Support Systems} operate). Bearing this in mind, a trade-off had to be established between capturing all relevant cases, and minimising physician input. This trade-off was well represented in the ROC curve, which provides a visual analysis \cite{alpaydin2014introduction} of  the penalty of increased false positives relative to the model's sensitivity.
+
+From an epidemiological point of view the model developed in this thesis provides interventionist recourse but, as is typical for predictive measures for populations, should not be viewed through the lens of base rate fallacy \cite{welsh2012seeing}. The results of the model described in Chapter \ref{chpt:predictive-modelling} are not envisioned as the final word on the patient cases that it classifies, but rather the start of an exploratory process on the part of medical professionals. 
+
+This thesis does not make the claim that the inferences derived in Chapter \ref{section:model-agnostic-explanation} are causal. That is to say, there is no claim that, for instance, depression has a causal effect on patients becoming frequent users. There nonetheless is clear correlation between particular terms and the occurrences of frequent users. This interpretive model provides significant scope for future work where novel patterns may be discovered in  relation to these patients. While this is particularly relevant to frequent users, due to the fact that analysis of patients that become frequent users is an area of active research within public health, there is also the potential to employ these measures for other medical problems.
+
+The research, described in this thesis, has potential for predictive modelling with relation to FTN data. However, it bears repeating that this thesis was able to solve concerns relating to ground truth that usually limits the volume of data available in machine learning applications in the medical domain (as ground truth was related to structured metadata that was automatically generated during the extraction process from Caredoc\index{Caredoc}'s databases, as opposed to being manually curated). Of course it goes without saying that training data was effectively limited by the necessary implementation of downsampling. The model developed showed that a model can achieve notable results when trained with relatively limited data, and successfully used in a real-world context. 
+
+
+
+\subsection{Practical Implications}
+
+The use of ANNs for prediction have clear practical implications. These models take significant computing resources to train, and an organisation like Caredoc\index{Caredoc} (or OOHC\index{Out-of-hours Health Care} in general) has little spare hardware for this kind of processing. However, the ANN model developed was ultimately not significantly more demanding than some of the more traditional approaches discussed in Chapter \ref{chpt:machine-learning}. As a point of reference, the final model described in Chapter \ref{chpt:predictive-modelling} takes an average 18 minutes to train using 8.9 * $10^{12}$ floating point operations per second. Moreover, is has been demonstrated in Chapter \ref{chpt:predictive-modelling} that, once trained, the model is able to generalise well with cases of unseen (i.e. holdout) patients. 
+
+%This thesis approaches the difficult task of outlier detection in noisy medicinal medicine. Although the model developed performs well in this task, because of the rare 
+
+
+\section{Future Work}
+
+This thesis considers a large number of patient interactions over the course of a single year. As such, temporal considerations do not bear a significant role in the analysis performed in this research. However, as discussed in Chapter \ref{chpt:related-research}, research into frequent users' interaction with health care over the course of multiple years is a major area of study. The work described in this thesis could thus be ameliorated through the application of additional data. In particular this would give an opportunity for new types of research.
+
+
+
+The most obvious avenue that multiple years' worth of data provides is the prediction of future frequent users (patients that are not initially frequent users, but over a period of time become frequent users). However a more significant contribution could be provided in tandem with interventionist policies. If primary care specialists designed to examine and treat potential frequent users are established, this expanded temporal data could assess the impact, and success or failure, of public health initiatives designed to this end. 
+
+The research described in this thesis also provides an exciting prospect in relation to other medical pathognomonics. This thesis described the classification of outlier patients simply through analysis of what are predominantly telemedical\index{telemedicine} textual notes. However, in a general population the number of people with almost any given disease will be rare \cite{vos2016global}. General primary care records cover very large populations of people, and if downsampling for the detection of an outlier class in the case of frequent users is successfully used with the neural network model described, it follows that this same approach may potentially be used in other contexts. In particular, this invites the detection of unreported or undiagnosed comorbidities. 
+
+The major stumbling block to an investigation of this nature is, as previously stated, based upon the establishment of ground truth. While parametric data was ultimately of little interest in patient case classification in this thesis, it was far from useless as it was used to establish ground truth in the first place (albeit before the extraction from Caredoc\index{Caredoc}'s databases). Similarly, the use of FTN for comorbidity detection or prediction would realistically require one of three resources: parametric data relating to the target disease, diagnostic data relating to these patients held in hospitals or GP surgeries, or manual labelling.
+
+All three approaches pose unique difficulties. However, the use of parametric data may be both the most profitable and cost-efficient method of achieving this goal. For instance, staff in OOHC such as Caredoc\index{Caredoc} could, going forward, record in the normalised parameters provided within the Ad Astra\index{Ad Astra} GUI, any known diseases relating to a patient. This information could then potentially be used for classification with FTN. Using these cases to develop a model, classification of patients as belonging to a particular cohort could be performed, much in the way it is described in this thesis. As shown in this thesis, this type of classification can be successfully performed using only a single case in relation to a given patient. Consequently this provides a potential way to help quickly identify hitherto unknown morbidities in a large population. More exciting still is that a system of this kind, once trained, would not need parameterised recording of patient diseases in order to perform classification (though the absence of such would naturally preclude initial large-scale assessment of performance). 
+
