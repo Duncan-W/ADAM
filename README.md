@@ -32,7 +32,7 @@ This template supports `XeLaTeX` compilation chain. To generate  PDF run
     makeindex thesis.nlo -s nomencl.ist -o thesis.nls
     latexmk -xelatex -g thesis.tex
 
-## Building your thesis - LuaLaTeX
+## Building this thesis - LuaLaTeX
 
 ### Using latexmk (Unix/Linux/Windows)
 
@@ -41,7 +41,7 @@ This template supports `LuaLaTeX` compilation chain. To generate  PDF run
     latexmk -pdflatex=lualatex -pdf thesis.tex
 
 
-## Building your thesis - LaTeX / PDFLaTeX
+## Building this thesis - LaTeX / PDFLaTeX
 
 ### Using latexmk (Unix/Linux/Windows)
 
@@ -56,7 +56,7 @@ This template supports `latexmk`. To generate DVI, PS and PDF run
 The template supports PDF, DVI and PS formats. All three formats can be generated
 with the provided `Makefile`.
 
-To build the `PDF` version of your thesis, run:
+To build the `PDF` version of this thesis, run:
 
     make
 
@@ -83,7 +83,7 @@ or with `biblatex`
     make BUILD_STRATEGY=lualatex BIB_STRATEGY=biblatex
 
 
-To produce `DVI` and `PS` versions of your document, you should run:
+To produce `DVI` and `PS` versions of this document, you should run:
 
 
     make BUILD_STRATEGY=latex
